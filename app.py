@@ -1,6 +1,7 @@
 import json
 import tkinter as tk
 from tkinter import messagebox
+
 import config
 
 with open('question.json', encoding="utf8") as f:
@@ -55,6 +56,8 @@ class MainQuizApp():
 
         # Переменная в которой запоминается выбор пользователя
         self.user_answer = tk.IntVar()
+        self.user_answer.set(228)
+
         self.root.mainloop()
 
     # Получить вопрос
@@ -83,12 +86,9 @@ class MainQuizApp():
 
     # Правильно ли пользователь ответил на вопрос?
     def is_answer_correct(self):
-        try:
-            return self.get_current_answer() == self.get_options()[self.user_answer.get() - 1]
-            print(f"USER ANSWER : {self.user_answer.get()}")
-            print(f"СРАВНИВАЕТСЯ {self.get_current_answer()} c {self.get_options()[self.user_answer.get() - 1]}")
-        except IndexError:
-            messagebox.showerror(title="ОШИБКА", message="Выбирите вариант ответа")
+        print(f"USER ANSWER : {self.user_answer.get()}")
+        print(f"СРАВНИВАЕТСЯ {self.get_current_answer()} c {self.get_options()[self.user_answer.get() - 1]}")
+        return self.get_current_answer() == self.get_options()[self.user_answer.get() - 1]
 
     def _update_question(self, question):
         self.questions_label.config(text=question)
@@ -222,6 +222,7 @@ class MainQuizApp():
             self.user.update_score()
             print(f"ПРАВИЛЬНЫХ ОТВЕТОВ :{self.user.show_score()}")
         print(status)
+
         # TODO добавить дозапись в файл информации об ответе
 
         # Здесь лежит блок для показа правильных ответов
@@ -232,7 +233,11 @@ class MainQuizApp():
 
     # Проверка и генерация нового вопроса
     def check_and_update(self):
-        self._update_answer_label()
+        try:
+            self._update_answer_label()
+        except IndexError:
+            messagebox.showerror(title="ОШИБКА", message="Выберите вариант ответа")
+            return
         self.root.after(100, self.get_next_question)
 
     def _update_questions_remaining(self):
