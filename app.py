@@ -1,21 +1,18 @@
 import json
 import tkinter as tk
 from tkinter import messagebox
-
 import config
 
-with open('./question.json', encoding="utf8") as f:
+with open('question.json', encoding="utf8") as f:
     data = json.load(f)
 
 # Вычитываем все вопросы и ответы с файла
 questions = [v for v in data[0].values()]
 answers = [v for v in data[1].values()]
+right_answers = [int(v) for v in data[2].values()]
 
 # Текущий вопрос
 current_question_index = 0
-
-# Правильные ответы
-right_answers = [0, 0, 2, 1, 2, 2, 2, 0, 3, 0]
 
 # Ответы пользователя
 user_answer = []
@@ -73,7 +70,8 @@ class MainQuizApp():
     def _make_options(self, options_list):
         for option, index in zip(options_list, range(len(options_list))):
             self.option_buttons.append(
-                tk.Radiobutton(self.questions_box, text=option, value=index + 1, variable=self.user_answer))
+                tk.Radiobutton(self.questions_box, text=option, value=index + 1, variable=self.user_answer)
+            )
             # print(f"OPTION BUTTONS: {self.option_buttons}")
             self.option_buttons[-1].grid(row=index + 1)
 
@@ -87,7 +85,7 @@ class MainQuizApp():
     def is_answer_correct(self):
         try:
             return self.get_current_answer() == self.get_options()[self.user_answer.get() - 1]
-            print(f" USER ANSWER : {self.user_answer.get()}")
+            print(f"USER ANSWER : {self.user_answer.get()}")
             print(f"СРАВНИВАЕТСЯ {self.get_current_answer()} c {self.get_options()[self.user_answer.get() - 1]}")
         except IndexError:
             messagebox.showerror(title="ОШИБКА", message="Выбирите вариант ответа")
@@ -103,14 +101,16 @@ class MainQuizApp():
         self.start_button.grid(row=0, column=0, stick="we")
 
         # Включаем кнопку
-        self.submit_button = tk.Button(self.side_box, text="Ответить",
-                                       activeforeground=config.BACKGROUND_BUTTON,
-                                       background=config.BACKGROUND_COLOR,
-                                       command=self.check_and_update,
-                                       padx=5,
-                                       pady=5)
+        self.submit_button = tk.Button(
+            self.side_box,
+            text="Ответить",
+            activeforeground=config.BACKGROUND_BUTTON,
+            background=config.BACKGROUND_COLOR,
+            command=self.check_and_update,
+            padx=5,
+            pady=5
+        )
         self.submit_button.grid(row=1, column=0, stick="we")
-
 
         print(self.user.score)
         # Получить список всех вопросов
@@ -139,7 +139,6 @@ class MainQuizApp():
         #                                                                            stick="we")
 
         self.user_answer = tk.IntVar()
-
         '''
         ФРЕЙМЫ
         '''
@@ -152,7 +151,6 @@ class MainQuizApp():
         self.side_box = tk.Frame(self.root, padx=5, pady=5)
         self.side_box.grid(row=2, column=1)
         self.side_box.grid_columnconfigure(0, minsize=100)
-
         '''
         ЛЕЙБЛЫ
         '''
@@ -164,7 +162,6 @@ class MainQuizApp():
         # Лейбл answer_label
         self.answer_label = tk.Label(self.questions_box)
         self.answer_label.grid(row=5)
-
         '''
         КНОПКИ
         '''
@@ -174,20 +171,28 @@ class MainQuizApp():
 
         # Кнопка старт
         # self.root.grid_rowconfigure(4, minsize=200)
-        self.start_button = tk.Button(self.side_box, text="Начать тестирование", command=self.start,
-                                      activeforeground=config.BACKGROUND_BUTTON,
-                                      background=config.BACKGROUND_COLOR,
-                                      padx=5, pady=5)
+        self.start_button = tk.Button(
+            self.side_box,
+            text="Начать тестирование",
+            command=self.start,
+            activeforeground=config.BACKGROUND_BUTTON,
+            background=config.BACKGROUND_COLOR,
+            padx=5,
+            pady=5
+        )
         self.start_button.grid(row=0, column=0, stick="we")
 
         # Кнопка ответ
-        self.submit_button = tk.Button(self.side_box, text="Ответить",
-                                       activeforeground=config.BACKGROUND_BUTTON,
-                                       background=config.BACKGROUND_COLOR,
-                                       command=self.check_and_update,
-                                       state="disable",
-                                       padx=5,
-                                       pady=5)
+        self.submit_button = tk.Button(
+            self.side_box,
+            text="Ответить",
+            activeforeground=config.BACKGROUND_BUTTON,
+            background=config.BACKGROUND_COLOR,
+            command=self.check_and_update,
+            state="disable",
+            padx=5,
+            pady=5
+        )
         self.submit_button.grid(row=1, column=0, stick="we")
 
         # Кнопка следующий
@@ -245,9 +250,6 @@ class MainQuizApp():
             # self.questions_label.config(text=text)
             messagebox.showinfo(title="ВАШ РЕЗУЛЬТАТ", message=text)
             self.root.destroy()
-
-
-
 
         else:
             self._update_questions_remaining()
