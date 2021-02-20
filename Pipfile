@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 cx-freeze = "*"
+yapf = "*"
 
 [dev-packages]
 

@@ -40,6 +40,7 @@ class User:
 
 
 class MainQuizApp():
+
     def __init__(self):
         self.questions = questions
         self.answers = answers
@@ -62,7 +63,9 @@ class MainQuizApp():
 
     # Получить вопрос
     def get_question(self):
-        print(f"CURRENT QUESTION : {self.questions[self.current_question_index]}")
+        print(
+            f"CURRENT QUESTION : {self.questions[self.current_question_index]}"
+        )
         return self.questions[self.current_question_index]
 
     # Получить варианты ответа
@@ -73,7 +76,12 @@ class MainQuizApp():
     def _make_options(self, options_list):
         for option, index in zip(options_list, range(len(options_list))):
             self.option_buttons.append(
-                tk.Radiobutton(self.questions_box, text=option, value=index + 1, variable=self.user_answer)
+                tk.Radiobutton(
+                    self.questions_box,
+                    text=option,
+                    value=index + 1,
+                    variable=self.user_answer
+                )
             )
             # print(f"OPTION BUTTONS: {self.option_buttons}")
             self.option_buttons[-1].grid(row=index + 1)
@@ -87,8 +95,11 @@ class MainQuizApp():
     # Правильно ли пользователь ответил на вопрос?
     def is_answer_correct(self):
         print(f"USER ANSWER : {self.user_answer.get()}")
-        print(f"СРАВНИВАЕТСЯ {self.get_current_answer()} c {self.get_options()[self.user_answer.get() - 1]}")
-        return self.get_current_answer() == self.get_options()[self.user_answer.get() - 1]
+        print(
+            f"СРАВНИВАЕТСЯ {self.get_current_answer()} c {self.get_options()[self.user_answer.get() - 1]}"
+        )
+        return self.get_current_answer() == self.get_options()[
+            self.user_answer.get() - 1]
 
     def _update_question(self, question):
         self.questions_label.config(text=question)
@@ -97,7 +108,13 @@ class MainQuizApp():
         print("START PROGRAMM")
 
         # Отключаем кнопку
-        self.start_button = tk.Button(self.side_box, text="Начать тестирование", state="disable", padx=5, pady=5)
+        self.start_button = tk.Button(
+            self.side_box,
+            text="Начать тестирование",
+            state="disable",
+            padx=5,
+            pady=5
+        )
         self.start_button.grid(row=0, column=0, stick="we")
 
         # Включаем кнопку
@@ -201,7 +218,9 @@ class MainQuizApp():
 
     def _update_options(self, options_list):
         self.user_answer.set(7)
-        for option_button, option, index in zip(self.option_buttons, options_list, range(len(options_list))):
+        for option_button, option, index in zip(
+            self.option_buttons, options_list, range(len(options_list))
+        ):
             option_button.config(text=option, value=index + 1)
 
     # Выдаем те же параметры если пользователь решил перещелкнуть вопрос
@@ -217,7 +236,8 @@ class MainQuizApp():
 
     # Метод для определения правильности ответа
     def _update_answer_label(self):
-        status = 'Правильный ответ' if self.is_answer_correct() else 'Неправильно'
+        status = 'Правильный ответ' if self.is_answer_correct(
+        ) else 'Неправильно'
         if status == 'Правильный ответ':
             self.user.update_score()
             print(f"ПРАВИЛЬНЫХ ОТВЕТОВ :{self.user.show_score()}")
@@ -236,7 +256,9 @@ class MainQuizApp():
         try:
             self._update_answer_label()
         except IndexError:
-            messagebox.showerror(title="ОШИБКА", message="Выберите вариант ответа")
+            messagebox.showerror(
+                title="ОШИБКА", message="Выберите вариант ответа"
+            )
             return
         self.root.after(100, self.get_next_question)
 
@@ -251,7 +273,8 @@ class MainQuizApp():
         if self.current_question_index == len(self.questions):
             print("Это был последний вопрос")
             print(self.user.show_score())
-            text = f"ВАШ РЕЗУЛЬТАТ : \n {self.user.show_score()} правильных ответов из {len(self.right_answers)} вопросов "
+            count_right_answer = len(self.right_answers)
+            text = f"ВАШ РЕЗУЛЬТАТ : \n {self.user.show_score()} правильных ответов из {count_right_answer} вопросов "
             # self.questions_label.config(text=text)
             messagebox.showinfo(title="ВАШ РЕЗУЛЬТАТ", message=text)
             self.root.destroy()
