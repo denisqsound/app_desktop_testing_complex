@@ -107,17 +107,22 @@ class MainQuizApp():
     def start(self):
         print("START PROGRAMM")
 
+        # TODO тут кнопку эту нужно удалять с экрана
+        self.start_button.grid_forget()
+        # self.start_button.destroy()
+
         # Отключаем кнопку
-        self.start_button = tk.Button(
-            self.side_box,
-            text="Начать тестирование",
-            state="disable",
-            padx=5,
-            pady=5
-        )
-        self.start_button.grid(row=0, column=0, stick="we")
+        # self.start_button = tk.Button(
+        #     self.side_box,
+        #     text="Начать тестирование",
+        #     state="disable",
+        #     padx=5,
+        #     pady=5
+        # )
+        # self.start_button.grid(row=0, column=0, stick="we")
 
         # Включаем кнопку
+
         self.submit_button = tk.Button(
             self.side_box,
             text="Ответить",
@@ -151,34 +156,54 @@ class MainQuizApp():
         self.root.config(bg=config.BACKGROUND_COLOR)
         self.root.grid_columnconfigure(0, minsize=400)
         self.root.title("Экзаменационная программа")
+        self.user_answer = tk.IntVar()
+
+        ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        ################################################ ФРЕЙМЫ ########################################################
+        ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+        # ROW - по горизонтали
+        # COLUMN - по вертикали
+
+
+        # Фрейм questions_box
+        self.questions_box = tk.Frame(self.root, padx=5, pady=5)
+        # Запакован в
+        # self.questions_box.grid(row=3, column=0)
+
+        # debug
+        self.questions_box.grid(row=0, column=0)
+
+
+        # Фрейм side_box
+        self.side_box = tk.Frame(self.root, padx=5, pady=5)
+        # Запакован в
+        # self.side_box.grid(row=2, column=1)
+        # self.side_box.grid_columnconfigure(0, minsize=100)
+
+
+
+        ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        ################################################ ЛЕЙБЛЫ ################################################ 
+        ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
         # tk.Label(self.root, text='Вас приветсвует экзаменационная программа').grid(row=0, column=0,
         #                                                                            columnspan=2,
         #                                                                            stick="we")
 
-        self.user_answer = tk.IntVar()
-        '''
-        ФРЕЙМЫ
-        '''
+        # debug
+        # l1 = tk.Label(self.questions_box, width=7, height=4,
+        #               bg='yellow', text="questions_box")
+        # l1.pack()
 
-        # Фрейм questions_box
-        self.questions_box = tk.Frame(self.root, padx=5, pady=5)
-        self.questions_box.grid(row=3, column=0)
-
-        # Фрейм side_box
-        self.side_box = tk.Frame(self.root, padx=5, pady=5)
-        self.side_box.grid(row=2, column=1)
-        self.side_box.grid_columnconfigure(0, minsize=100)
-        '''
-        ЛЕЙБЛЫ
-        '''
 
         # Лейбл questions_label
-        self.questions_label = tk.Label(self.questions_box, padx=5, pady=5)
-        self.questions_label.grid(row=0)
+        # self.questions_label = tk.Label(self.questions_box, padx=5, pady=5)
+        # self.questions_label.grid(row=0)
 
         # Лейбл answer_label
-        self.answer_label = tk.Label(self.questions_box)
-        self.answer_label.grid(row=5)
+        # self.answer_label = tk.Label(self.questions_box)
+        # self.answer_label.grid(row=5)
         '''
         КНОПКИ
         '''
@@ -188,16 +213,16 @@ class MainQuizApp():
 
         # Кнопка старт
         # self.root.grid_rowconfigure(4, minsize=200)
-        self.start_button = tk.Button(
-            self.side_box,
-            text="Начать тестирование",
-            command=self.start,
-            activeforeground=config.BACKGROUND_BUTTON,
-            background=config.BACKGROUND_COLOR,
-            padx=5,
-            pady=5
-        )
-        self.start_button.grid(row=0, column=0, stick="we")
+        # self.start_button = tk.Button(
+        #     self.side_box,
+        #     text="Начать тестирование",
+        #     command=self.start,
+        #     activeforeground=config.BACKGROUND_BUTTON,
+        #     background=config.BACKGROUND_COLOR,
+        #     padx=5,
+        #     pady=5
+        # )
+        # self.start_button.grid(row=0, column=0, stick="we")
 
         # Кнопка ответ
         self.submit_button = tk.Button(
@@ -219,7 +244,7 @@ class MainQuizApp():
     def _update_options(self, options_list):
         self.user_answer.set(7)
         for option_button, option, index in zip(
-            self.option_buttons, options_list, range(len(options_list))
+                self.option_buttons, options_list, range(len(options_list))
         ):
             option_button.config(text=option, value=index + 1)
 
