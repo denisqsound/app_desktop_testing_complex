@@ -77,7 +77,7 @@ class MainQuizApp():
         for option, index in zip(options_list, range(len(options_list))):
             self.option_buttons.append(
                 tk.Radiobutton(
-                    self.questions_box,
+                    self.middle_frame,
                     text=option,
                     value=index + 1,
                     variable=self.user_answer
@@ -124,7 +124,7 @@ class MainQuizApp():
         # Включаем кнопку
 
         self.submit_button = tk.Button(
-            self.side_box,
+            self.low_frame,
             text="Ответить",
             activeforeground=config.BACKGROUND_BUTTON,
             background=config.BACKGROUND_COLOR,
@@ -150,96 +150,6 @@ class MainQuizApp():
         print(f"OPTIONS : {options}")
 
         self._make_options(options)
-
-    def _build_gui(self):
-        self.root.geometry(config.GEOMETRY)
-        self.root.config(bg=config.BACKGROUND_COLOR)
-        self.root.grid_columnconfigure(0, minsize=400)
-        self.root.title("Экзаменационная программа")
-        self.user_answer = tk.IntVar()
-
-        ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-        ################################################ ФРЕЙМЫ ########################################################
-        ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-        # ROW - по горизонтали
-        # COLUMN - по вертикали
-
-
-        # Фрейм questions_box
-        self.questions_box = tk.Frame(self.root, padx=5, pady=5)
-        # Запакован в
-        # self.questions_box.grid(row=3, column=0)
-
-        # debug
-        self.questions_box.grid(row=0, column=0)
-
-
-        # Фрейм side_box
-        self.side_box = tk.Frame(self.root, padx=5, pady=5)
-        # Запакован в
-        # self.side_box.grid(row=2, column=1)
-        # self.side_box.grid_columnconfigure(0, minsize=100)
-
-
-
-        ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-        ################################################ ЛЕЙБЛЫ ################################################ 
-        ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-        # tk.Label(self.root, text='Вас приветсвует экзаменационная программа').grid(row=0, column=0,
-        #                                                                            columnspan=2,
-        #                                                                            stick="we")
-
-        # debug
-        # l1 = tk.Label(self.questions_box, width=7, height=4,
-        #               bg='yellow', text="questions_box")
-        # l1.pack()
-
-
-        # Лейбл questions_label
-        # self.questions_label = tk.Label(self.questions_box, padx=5, pady=5)
-        # self.questions_label.grid(row=0)
-
-        # Лейбл answer_label
-        # self.answer_label = tk.Label(self.questions_box)
-        # self.answer_label.grid(row=5)
-        '''
-        КНОПКИ
-        '''
-
-        # Список кнопок с вариантами ответа
-        self.option_buttons = []
-
-        # Кнопка старт
-        # self.root.grid_rowconfigure(4, minsize=200)
-        # self.start_button = tk.Button(
-        #     self.side_box,
-        #     text="Начать тестирование",
-        #     command=self.start,
-        #     activeforeground=config.BACKGROUND_BUTTON,
-        #     background=config.BACKGROUND_COLOR,
-        #     padx=5,
-        #     pady=5
-        # )
-        # self.start_button.grid(row=0, column=0, stick="we")
-
-        # Кнопка ответ
-        self.submit_button = tk.Button(
-            self.side_box,
-            text="Ответить",
-            activeforeground=config.BACKGROUND_BUTTON,
-            background=config.BACKGROUND_COLOR,
-            command=self.check_and_update,
-            state="disable",
-            padx=5,
-            pady=5
-        )
-        self.submit_button.grid(row=1, column=0, stick="we")
-
-        # Кнопка следующий
-        # self.next_button = tk.Button(self.questions_box, text="Next", padx=5, pady=5)
-        # self.next_button.grid(row=3, column=0, columnspan=2, stick="we")
 
     def _update_options(self, options_list):
         self.user_answer.set(7)
@@ -308,6 +218,110 @@ class MainQuizApp():
             self._update_questions_remaining()
             self._update_question(self.get_question())
             self._update_options(self.get_options())
+
+    def _build_gui(self):
+        # ROW - по горизонтали (Строки)
+        # COLUMN - по вертикали (Колонки)
+
+        self.root.geometry(config.GEOMETRY)
+        self.root.config(bg=config.BACKGROUND_COLOR)
+
+        # Ширина колонки
+        self.root.grid_columnconfigure(0, minsize=590)
+        self.root.title("Экзаменационная программа")
+        self.user_answer = tk.IntVar()
+
+        # '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''#
+        ################################################ ФРЕЙМЫ ###############################################
+        # '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''#
+
+        # ROW - по горизонтали (Строки)
+        # COLUMN - по вертикали (Колонки)
+
+
+        self.ultra_head_frame = tk.Frame(self.root, padx=5, pady=5)
+        self.ultra_head_frame.grid(row=0, column=0)
+
+        self.head_frame = tk.Frame(self.root, padx=5, pady=5)
+        self.head_frame.grid(row=1, column=0)
+
+        self.middle_frame = tk.Frame(self.root, padx=5, pady=5)
+        self.middle_frame.grid(row=2, column=0)
+        self.middle_frame.grid_rowconfigure(1, minsize=100)
+
+        self.low_frame = tk.Frame(self.root, padx=5, pady=5)
+        self.low_frame.grid(row=3, column=0)
+
+
+
+        # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''#
+        ################################################ ЛЕЙБЛЫ ################################################ 
+        # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''#
+
+        # self.root_label = tk.Label(self.root, text='ROOT').grid(row=0, column=0, columnspan=2, stick="we")
+        # self.root_label = tk.Label(self.root, text='ROOT').grid(row=0, column=0, stick="we")
+
+
+        text = 'qweqweqwe \n qweqweqwe \n qweqweqw \n qweqweqwe \n qweqweqw \n qweqweqwe \n qweqweqw \n qweqweqwe \n qweqweqw'
+        self.test_label = tk.Label(self.ultra_head_frame, text='ULTRA HEAD', padx=5, pady=5)
+        self.test_label.grid()
+
+        self.test_label = tk.Label(self.head_frame, text='HEAD', padx=5, pady=5)
+        self.test_label.grid()
+
+        # self.questions_label = tk.Label(self.middle_frame, text=text, padx=5, pady=5)
+        # self.questions_label.grid()
+
+
+        self.low_frame = tk.Label(self.low_frame, text='SIDE BOX', padx=0, pady=0)
+        self.empty_low_frame = tk.Label(self.low_frame, text='EMPTY_SIDE BOX', padx=0, pady=0)
+        self.low_frame.grid()
+
+
+        # ROW - по горизонтали (Строки)
+        # COLUMN - по вертикали (Колонки)
+
+
+        # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''#
+        ################################################ КНОПКИ ################################################
+        # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''#
+
+        # Список кнопок с вариантами ответа
+        self.option_buttons = []
+
+        def udoli():
+            self.empty_low_frame.grid()
+
+
+        # Кнопка старт
+        # self.root.grid_rowconfigure(4, minsize=200)
+        self.test_button = tk.Button(
+            self.middle_frame,
+            text="А НУ КА",
+            command=udoli,
+            activeforeground=config.BACKGROUND_BUTTON,
+            background=config.BACKGROUND_COLOR,
+            padx=5,
+            pady=5
+        )
+        self.test_button.grid(row=1, column=0, stick="ns")
+
+        # Кнопка ответ
+        # self.submit_button = tk.Button(
+        #     self.side_box,
+        #     text="Ответить",
+        #     activeforeground=config.BACKGROUND_BUTTON,
+        #     background=config.BACKGROUND_COLOR,
+        #     command=self.check_and_update,
+        #     state="disable",
+        #     padx=5,
+        #     pady=5
+        # )
+        # self.submit_button.grid(row=1, column=0, stick="we")
+
+        # Кнопка следующий
+        # self.next_button = tk.Button(self.questions_box, text="Next", padx=5, pady=5)
+        # self.next_button.grid(row=3, column=0, columnspan=2, stick="we")
 
 
 if __name__ == '__main__':
