@@ -262,7 +262,7 @@ class MainQuizApp():
         # self.root_label = tk.Label(self.root, text='ROOT').grid(row=0, column=0, stick="we")
 
 
-        text = 'qweqweqwe \n qweqweqwe \n qweqweqw \n qweqweqwe \n qweqweqw \n qweqweqwe \n qweqweqw \n qweqweqwe \n qweqweqw'
+        # text = 'qweqweqwe \n qweqweqwe \n qweqweqw \n qweqweqwe \n qweqweqw \n qweqweqwe \n qweqweqw \n qweqweqwe \n qweqweqw'
         self.test_label = tk.Label(self.ultra_head_frame, text='ULTRA HEAD', padx=5, pady=5)
         self.test_label.grid()
 
@@ -273,9 +273,9 @@ class MainQuizApp():
         # self.questions_label.grid()
 
 
-        self.low_frame = tk.Label(self.low_frame, text='SIDE BOX', padx=0, pady=0)
-        self.empty_low_frame = tk.Label(self.low_frame, text='EMPTY_SIDE BOX', padx=0, pady=0)
-        self.low_frame.grid()
+        self.low_label = tk.Label(self.low_frame, text='SIDE BOX', padx=0, pady=0)
+        self.empty_low_label = tk.Label(self.low_frame, text='EMPTY_SIDE BOX', padx=0, pady=0)
+        self.low_label.grid()
 
 
         # ROW - по горизонтали (Строки)
@@ -290,7 +290,17 @@ class MainQuizApp():
         self.option_buttons = []
 
         def udoli():
-            self.empty_low_frame.grid()
+            self.empty_low_label.grid()
+            self.test_button_verni.grid(row=1, column=0, stick="ns")
+            self.low_label.grid_remove()
+            self.test_button.grid_remove()
+
+        def verni():
+            self.empty_low_label.grid_remove()
+            self.test_button_verni.grid_remove()
+            self.low_label.grid()
+            self.test_button.grid(row=1, column=0, stick="ns")
+
 
 
         # Кнопка старт
@@ -304,7 +314,19 @@ class MainQuizApp():
             padx=5,
             pady=5
         )
+
         self.test_button.grid(row=1, column=0, stick="ns")
+
+        self.test_button_verni = tk.Button(
+            self.middle_frame,
+            text="НУ КА",
+            command=verni,
+            activeforeground=config.BACKGROUND_BUTTON,
+            background=config.BACKGROUND_COLOR,
+            padx=5,
+            pady=5
+        )
+
 
         # Кнопка ответ
         # self.submit_button = tk.Button(
